@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.dto.UserDto;
+import com.spring.service.AuthoritiesService;
 import com.spring.service.UserService;
 
 @Controller
@@ -21,6 +22,9 @@ public class AdminUserController {
 	
 	@Autowired
 	private UserService service;
+	
+	@Autowired
+	private AuthoritiesService authService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(AdminUserController.class);
 	
@@ -33,9 +37,22 @@ public class AdminUserController {
 	
 	@RequestMapping(value = "/admin/user/update", method = RequestMethod.POST)
 	public String updateDB(UserDto dto,RedirectAttributes rttr) throws Exception{
+		service.update(dto);
+		logger.info(dto.toString());
+		rttr.addFlashAttribute("msg","success");
+		return "redirect:/admin/user/selectAll";
+	}
+	
+	@RequestMapping(value = "/admin/user/pwUpdate", method = RequestMethod.GET)
+	public void pwUpdate(String userID, Model model) throws Exception {
+		model.addAttribute("dto", service.selectName(userID));
+	}
+	
+	@RequestMapping(value = "/admin/user/pwUpdate", method = RequestMethod.POST)
+	public String pwwUpdateDB(UserDto dto, RedirectAttributes rttr) throws Exception{
 		String encPassword = passwordEncoder.encode(dto.getUserPW());
 		dto.setUserPW(encPassword);
-		service.update(dto);
+		service.pwUpdate(dto);
 		logger.info(dto.toString());
 		rttr.addFlashAttribute("msg","success");
 		return "redirect:/admin/user/selectAll";
@@ -44,6 +61,7 @@ public class AdminUserController {
 	@RequestMapping(value = "/admin/user/delete", method = RequestMethod.GET)
 	public String delete(String userID,RedirectAttributes rttr) throws Exception{
 		service.delete(userID);
+		authService.delete(userID);
 		rttr.addFlashAttribute("msg","success");
 		return "redirect:/admin/user/selectAll";
 	}

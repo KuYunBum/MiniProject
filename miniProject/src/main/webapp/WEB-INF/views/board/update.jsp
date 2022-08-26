@@ -1,12 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<style>
-	.container,
-	.table th, td {
-		text-align: center;
-	}
-</style>
 
 <%@include file="../include/header.jsp"%>
 
@@ -31,7 +25,7 @@
 						<th>내용</th>
 					</tr>
 					<tr>
-						<td><textarea name="content">${boardDto.content }</textarea></td>
+						<td><textarea style="width: 400px; height: 200px;" name="content">${boardDto.content }</textarea></td>
 					</tr>
 			</table>
 			<button type="submit" class="btn btn-primary">저장</button>

@@ -1,12 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<style>
-	.container,
-	.table th, td {
-		text-align: center;
-	}
-</style>
 
 <%@include file="../include/header.jsp"%>
 
@@ -34,9 +28,11 @@
 				</tr>
 		</table>
 	</div>
-	<button type="button" class="btn btn-primary" onclick="location.href='<c:url value='/board/update?bno=${boardDto.bno }'/>'">수정</button>
-	<button type="button" class="btn btn-primary" onclick="location.href='<c:url value='/board/delete?bno=${boardDto.bno }'/>'">삭제</button>
-	<button type="button" class="btn btn-primary" onclick="location.href='<c:url value='/board/list'/>'">목록</button>
+	<sec:authorize access="isAuthenticated()">
+		<button type="button" class="btn btn-primary" onclick="location.href='<c:url value='/board/update?bno=${boardDto.bno }'/>'">수정</button>
+		<button type="button" class="btn btn-primary" onclick="location.href='<c:url value='/board/delete?bno=${boardDto.bno }'/>'">삭제</button>
+	</sec:authorize>
+	<button type="button" class="btn btn-primary" onclick="location.href='<c:url value="/board/list?userID="/><%=name %>'">목록</button>
 </div>
 
 </body>

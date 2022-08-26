@@ -27,7 +27,6 @@
 				</table>
 			</div>
 			<button class="btn btn-primary" onclick="location.href='<c:url value="/admin/authorities/update?userID=${dto.userID}&authority=${dto.authority}"/>'">정보수정</button>
-			<button class="btn btn-primary" onclick="location.href='<c:url value="/admin/authorities/pwUpdate?userID=${dto.userID}&authority=${dto.authority}"/>'">비밀번호변경</button>
 			<button class="btn btn-primary" onclick="location.href='<c:url value="/admin/authorities/selectAll"/>'">전체 데이터</button>
 		</div>
 	</body>

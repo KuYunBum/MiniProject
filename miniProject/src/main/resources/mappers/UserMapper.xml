@@ -7,8 +7,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <insert id="insert">
 	insert into 
-		users (userNum, userID, userPW, userName, userGender, userBirth, userPhone, userEmail, enabled)
-	values (user_counter.nextval, #{userID}, #{userPW}, #{userName}, #{userGender}, #{userBirth}, #{userPhone}, #{userEmail}, #{enabled})
+		users (userNum, userID, userPW, userName, userGender, userBirth, userPhone, userEmail)
+	values (user_counter.nextval, #{userID}, #{userPW}, #{userName}, #{userGender}, #{userBirth}, #{userPhone}, #{userEmail})
 </insert>
 
 <select id="selectAll" resultType="com.spring.dto.UserDto">
@@ -21,11 +21,24 @@ select * from users where userID=#{userID}
 
 <update id="update">
 update users set 
-	userPW=#{userPW}, userName=#{userName}, userGender=#{userGender},
+	userName=#{userName}, userGender=#{userGender},
 	userBirth=#{userBirth}, userPhone=#{userPhone}, userEmail=#{userEmail}, enabled=#{enabled} where userID=#{userID}
+</update>
+
+<update id="pwUpdate">
+update users set 
+	userPW=#{userPW} where userID=#{userID}
 </update>
 
 <delete id="delete">
 delete users where userID=#{userID}
 </delete>
+
+<select id="checkId" parameterType="String" resultType="Integer">
+    select count(*) from users where userID = #{ userID }
+</select>
+
+<select id="findUser" resultType="com.spring.dto.UserDto">
+    select * from users where userName = #{ userName } and userPhone = #{userPhone}
+</select>
 </mapper>

@@ -2,7 +2,6 @@
 
 <%@include file="../../include/header.jsp"%>
 
-
 </head>
 <body>
 <div class="container">
@@ -25,7 +24,7 @@
 			</tbody>
 		</table>
 	</div>
-	<button class="btn btn-primary" onclick="location.href='<c:url value="/admin/user/insert"/>'">회원추가</button>
+	<button class="btn btn-primary" onclick="location.href='<c:url value="/admin/authorities/insert"/>'">회원추가</button>
 </div>
 </body>
 </html>

@@ -25,6 +25,12 @@ public class UserServiceImpl implements UserService {
 		UserDao dao=sqlSession.getMapper(UserDao.class);
 		dao.update(dto);
 	}
+	
+	@Override
+	public void pwUpdate(UserDto dto) throws Exception {
+		UserDao dao=sqlSession.getMapper(UserDao.class);
+		dao.pwUpdate(dto);
+	}
 
 	@Override
 	public void delete(String userID) throws Exception {
@@ -42,6 +48,18 @@ public class UserServiceImpl implements UserService {
 	public UserDto selectName(String userID) throws Exception {
 		UserDao dao=sqlSession.getMapper(UserDao.class);
 		return dao.selectName(userID);
+	}
+
+	@Override
+	public int checkId(String userID) throws Exception {
+		UserDao dao=sqlSession.getMapper(UserDao.class);
+		return dao.checkId(userID);
+	}
+
+	@Override
+	public UserDto findUser(UserDto dto) throws Exception {
+		UserDao dao=sqlSession.getMapper(UserDao.class);
+		return dao.findUser(dto);
 	}
 	
 

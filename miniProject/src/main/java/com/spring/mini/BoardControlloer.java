@@ -1,6 +1,7 @@
 package com.spring.mini;
 
 
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.dto.BoardDto;
 import com.spring.service.BoardService;
+import com.spring.service.UserService;
 
 @Controller
 @RequestMapping("/board/*")
@@ -38,7 +40,12 @@ private static final Logger logger = LoggerFactory.getLogger(BoardControlloer.cl
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	public String insertPOST(BoardDto dto, RedirectAttributes rttr) throws Exception {
 		
-		boardService.insert(dto);
+		try {
+			boardService.insert(dto);
+		}catch (Exception e) {
+			rttr.addFlashAttribute("msg", "null");
+			return "redirect:/board/insert";
+		}
 		logger.info(dto.toString());
 		rttr.addFlashAttribute("msg", "success");
 		

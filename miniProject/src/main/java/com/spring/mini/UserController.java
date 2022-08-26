@@ -2,6 +2,7 @@ package com.spring.mini;
 
 import java.util.Locale;
 
+import org.apache.tomcat.util.http.fileupload.ParameterParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.dto.UserDto;
+import com.spring.service.AuthoritiesService;
 import com.spring.service.UserService;
 
 
@@ -26,6 +29,9 @@ public class UserController {
 	
 	@Autowired
 	private UserService service;
+	
+	@Autowired
+	private AuthoritiesService authService;
 
 	@RequestMapping(value = "/user/user", method = RequestMethod.GET)
 	public String user(Locale locale, Model model) {
@@ -49,11 +55,84 @@ public class UserController {
 		
 	@RequestMapping(value = "/user/insert", method = RequestMethod.POST)
 	public String insertDB(UserDto dto,RedirectAttributes rttr) throws Exception{
-		String encPassword = passwordEncoder.encode(dto.getUserPW());
-		dto.setUserPW(encPassword);
-		service.insert(dto);
-		System.out.println(dto);
+		
+			String encPassword = passwordEncoder.encode(dto.getUserPW());
+			dto.setUserPW(encPassword);
+		try {
+			service.insert(dto);
+		}catch (Exception e) {
+			rttr.addFlashAttribute("msg","null");
+			return "redirect:/user/insert";
+		}
 		rttr.addFlashAttribute("msg","success");
 		return "redirect:/user/login";
 	}
+	
+	@RequestMapping(value = "/user/update", method = RequestMethod.GET)
+	public void update(String userID, Model model) throws Exception {
+		model.addAttribute("dto", service.selectName(userID));
+	}
+	
+	@RequestMapping(value = "/user/update", method = RequestMethod.POST)
+	public String updateDB(UserDto dto, String userID, RedirectAttributes rttr) throws Exception{
+		service.update(dto);
+		logger.info(dto.toString());
+		rttr.addFlashAttribute("msg","success");
+		return "redirect:/user/detail?userID="+userID;
+	}
+	
+	@RequestMapping(value = "/user/pwUpdate", method = RequestMethod.GET)
+	public void pwUpdate(String userID, Model model) throws Exception {
+		model.addAttribute("dto", service.selectName(userID));
+	}
+	
+	@RequestMapping(value = "/user/pwUpdate", method = RequestMethod.POST)
+	public String pwUpdateDB(UserDto dto, String userID, RedirectAttributes rttr) throws Exception{
+		String encPassword = passwordEncoder.encode(dto.getUserPW());
+		dto.setUserPW(encPassword);
+		service.pwUpdate(dto);
+		logger.info(dto.toString());
+		rttr.addFlashAttribute("msg","success");
+		return "redirect:/user/detail?userID="+userID;
+	}
+	
+	@RequestMapping(value = "/user/findUser", method = RequestMethod.GET)
+	public void findUser() throws Exception {
+		
+	}
+	
+	@RequestMapping(value = "/user/findUser", method = RequestMethod.POST)
+	@ResponseBody
+	public UserDto findUserDB(UserDto dto) throws Exception {
+		UserDto user = service.findUser(dto);
+		String randomPW =  Integer.toString((int)(Math.random()*1000000+1000000));
+		String encPassword = passwordEncoder.encode(randomPW);
+		user.setUserPW(encPassword);
+		service.pwUpdate(user);
+		user.setUserPW(randomPW);
+		return user;
+	}
+	
+	@RequestMapping(value = "/user/detail", method = RequestMethod.GET)
+	public void detail(String userID, Model model) throws Exception {
+		
+		model.addAttribute("dto", service.selectName(userID));
+	}
+	
+	@RequestMapping(value = "/user/delete", method = RequestMethod.GET)
+	public String delete(String userID, RedirectAttributes rttr) throws Exception {
+		
+		service.delete(userID);
+		authService.delete(userID);
+		rttr.addFlashAttribute("msg","success");
+		return "redirect:/user/logout";
+	}
+	
+	@RequestMapping(value = "/user/idcheck", method = RequestMethod.GET)
+	@ResponseBody 
+	public int idcheck(String userID) throws Exception {
+	    int result = service.checkId(userID);
+	    return result; 
+	}
+	
 }
