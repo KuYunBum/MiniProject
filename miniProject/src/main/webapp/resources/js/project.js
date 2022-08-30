@@ -84,3 +84,57 @@ function IDPW() {
     });
 }
 
+function boardInsert() {
+	var userID = $('#userID').val();
+	var title = $('#title').val();
+	var content = $('#content').val();
+	
+	var postData = {'userID' : userID , 'title' : title, 'content' : content};
+	$.ajax({
+		type:'POST',
+		url:'/mini/board/insert',
+		data: postData,
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		dataType : "json",
+		
+		success:function(result){
+			if(result==0){
+				$("#result").html("내용을 입력하세요.");
+			}else{
+				location.href = "/mini/board/list";
+				$("#result").html("글쓰기 성공");
+			}
+		},
+		error: function (XMLHttpRequest, textStatus, errorThrown){
+			$("#result").html(result);
+		}
+	});
+}
+
+function boardUpdate() {
+	var bno = $('#bno').val();
+	var title = $('#title').val();
+	var content = $('#content').val();
+	
+	var postData = {'bno' : bno , 'title' : title, 'content' : content};
+	$.ajax({
+		type:'POST',
+		url:'/mini/board/update',
+		data: postData,
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+		dataType : "json",
+		
+		success:function(result){
+			if(result==0){
+				$("#result").html("내용을 입력하세요.");
+			}else{
+				location.href = "/mini/board/list";
+				$("#result").html("글수정 성공");
+			}
+		},
+		error: function (XMLHttpRequest, textStatus, errorThrown){
+			$("#result").html(result);
+		}
+	});
+}
+

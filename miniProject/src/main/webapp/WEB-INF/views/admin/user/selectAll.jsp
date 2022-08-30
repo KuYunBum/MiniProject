@@ -10,16 +10,26 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th>userID</th>
-						<th>password</th>
-						<th>enabled</th>
+						<th>회원번호</th>
+						<th>아이디</th>
+						<th>이름</th>
+						<th>성별</th>
+						<th>이메일</th>
+						<th>전화번호</th>
+						<th>생년월일</th>
+						<th>권한</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach items="${list }" var="dto">
 						<tr>
+							<td>${dto.userNum}</td>
 							<td><a href="/mini/admin/user/selectName?userID=${dto.userID }">${dto.userID }</a></td>
-							<td>${dto.userPW}</td>
+							<td>${dto.userName}</td>
+							<td>${dto.userGender}</td>
+							<td>${dto.userEmail}</td>
+							<td>${dto.userPhone}</td>
+							<td><fmt:formatDate pattern='yyyy-MM-dd' value='${dto.userBirth }'/></td>
 							<td>${dto.enabled }</td>
 						</tr>
 					</c:forEach>	

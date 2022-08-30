@@ -10,11 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.dto.BoardDto;
 import com.spring.service.BoardService;
-import com.spring.service.UserService;
 
 @Controller
 @RequestMapping("/board/*")
@@ -38,18 +38,19 @@ private static final Logger logger = LoggerFactory.getLogger(BoardControlloer.cl
 	}
 	
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public String insertPOST(BoardDto dto, RedirectAttributes rttr) throws Exception {
+	@ResponseBody
+	public int insertPOST(BoardDto dto) throws Exception {
 		
 		try {
 			boardService.insert(dto);
 		}catch (Exception e) {
-			rttr.addFlashAttribute("msg", "null");
-			return "redirect:/board/insert";
+			int result = 0;
+			return result;
 		}
 		logger.info(dto.toString());
-		rttr.addFlashAttribute("msg", "success");
 		
-		return "redirect:/board/list";
+		int result = 1;
+		return result;
 	}
 	
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
@@ -66,13 +67,19 @@ private static final Logger logger = LoggerFactory.getLogger(BoardControlloer.cl
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String updatePOST(BoardDto dto, RedirectAttributes rttr) throws Exception {
+	@ResponseBody
+	public int updatePOST(BoardDto dto, RedirectAttributes rttr) throws Exception {
 		
-		boardService.update(dto);
+		if(dto.getTitle().equals("")||dto.getContent().equals("")) {
+			int result = 0;
+			return result;
+		}else {
+			boardService.update(dto);
+		}
 		logger.info(dto.toString());
-		rttr.addFlashAttribute("msg", "success");
 		
-		return "redirect:/board/list";
+		int result = 1;
+		return result;
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)

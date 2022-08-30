@@ -2,36 +2,6 @@
 
 <%@include file="../include/header.jsp"%>
 
-	<script>
-	 var result = '${msg}';
-		if (result == 'success') {
-			alert("처리가 완료되었습니다.");
-		}
-	</script>
-	<style>
-#customers {
-  font-family: Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-#customers td, #customers th {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-#customers tr:nth-child(even){background-color: #f2f2f2;}
-
-#customers tr:hover {background-color: #ddd;}
-
-#customers th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #04AA6D;
-  color: white;
-}
-</style>
 </head>
 <body>
 	<div class="container">
@@ -64,7 +34,6 @@
 		</div>
 		<button class="btn btn-primary"  onclick="location.href='<c:url value="/user/update?userID=${dto.userID }"/>'">정보변경</button>
 		<button class="btn btn-primary"  onclick="location.href='<c:url value="/user/pwUpdate?userID=${dto.userID }"/>'">비밀번호변경</button>
-		<button class="btn btn-primary"  onclick="history.back();">뒤로</button>
 	</div>
 </body>
 </html>

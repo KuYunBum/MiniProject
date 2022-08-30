@@ -2,7 +2,6 @@ package com.spring.mini;
 
 import java.util.Locale;
 
-import org.apache.tomcat.util.http.fileupload.ParameterParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,12 +47,12 @@ public class UserController {
 		return "/user/login";
 	}
 	
-	@RequestMapping(value = "/user/insert", method = RequestMethod.GET)
-	public String insert() {
-		return "/user/insert";
+	@RequestMapping(value = "/user/join", method = RequestMethod.GET)
+	public String join() {
+		return "/user/join";
 	}
 		
-	@RequestMapping(value = "/user/insert", method = RequestMethod.POST)
+	@RequestMapping(value = "/user/join", method = RequestMethod.POST)
 	public String insertDB(UserDto dto,RedirectAttributes rttr) throws Exception{
 		
 			String encPassword = passwordEncoder.encode(dto.getUserPW());
@@ -62,7 +61,7 @@ public class UserController {
 			service.insert(dto);
 		}catch (Exception e) {
 			rttr.addFlashAttribute("msg","null");
-			return "redirect:/user/insert";
+			return "redirect:/user/join";
 		}
 		rttr.addFlashAttribute("msg","success");
 		return "redirect:/user/login";
@@ -74,11 +73,16 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/user/update", method = RequestMethod.POST)
-	public String updateDB(UserDto dto, String userID, RedirectAttributes rttr) throws Exception{
-		service.update(dto);
+	public String updateDB(UserDto dto, RedirectAttributes rttr) throws Exception{
+		try {
+			service.update(dto);
+		}catch (Exception e) {
+			rttr.addFlashAttribute("msg","null");
+			return "redirect:/user/update?userID="+dto.getUserID();
+		}
 		logger.info(dto.toString());
 		rttr.addFlashAttribute("msg","success");
-		return "redirect:/user/detail?userID="+userID;
+		return "redirect:/member/member";
 	}
 	
 	@RequestMapping(value = "/user/pwUpdate", method = RequestMethod.GET)
@@ -87,13 +91,19 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/user/pwUpdate", method = RequestMethod.POST)
-	public String pwUpdateDB(UserDto dto, String userID, RedirectAttributes rttr) throws Exception{
-		String encPassword = passwordEncoder.encode(dto.getUserPW());
-		dto.setUserPW(encPassword);
-		service.pwUpdate(dto);
+	public String pwUpdateDB(UserDto dto, RedirectAttributes rttr) throws Exception{
+		
+		if(dto.getUserPW().equals("")) {
+			rttr.addFlashAttribute("msg","null");
+			return "redirect:/user/pwUpdate?userID="+dto.getUserID();
+		}else {
+			String encPassword = passwordEncoder.encode(dto.getUserPW());
+			dto.setUserPW(encPassword);
+			service.pwUpdate(dto);
+		}
 		logger.info(dto.toString());
 		rttr.addFlashAttribute("msg","success");
-		return "redirect:/user/detail?userID="+userID;
+		return "redirect:/member/member";
 	}
 	
 	@RequestMapping(value = "/user/findUser", method = RequestMethod.GET)

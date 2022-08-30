@@ -43,8 +43,16 @@
 				<a class="navbar-brand" href="#">WebSiteName</a>
 			</div>
 			<ul class="nav navbar-nav">
-				<li><a href="<c:url value="/user/user"/>">Home</a></li>
-					<li><a href="<c:url value="/board/list?userID="/><%=name %>">게시판</a></li>
+				<sec:authorize access="isAnonymous()">
+					<li><a href="<c:url value="/user/user"/>">Home</a></li>
+				</sec:authorize>
+				<sec:authorize access="hasRole('MEMBER')">
+					<li><a href="<c:url value="/member/member"/>">Home</a></li>
+				</sec:authorize>
+				<sec:authorize access="hasRole('ADMIN')">
+					<li><a href="<c:url value="/admin/admin"/>">Home</a></li>
+				</sec:authorize>
+				<li><a href="<c:url value="/board/list?userID="/><%=name %>">게시판</a></li>
 				<sec:authorize access="hasRole('ADMIN')">
 					<li><a href="<c:url value="/admin/authorities/selectAll"/>">권한관리</a></li>
 					<li><a href="<c:url value="/admin/user/selectAll"/>">회원관리</a></li>
@@ -52,7 +60,7 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="isAnonymous()">
-					<li><a href="<c:url value="/user/insert"/>"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+					<li><a href="<c:url value="/user/join"/>"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
 					<li><a href="<c:url value="/user/login"/>"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">

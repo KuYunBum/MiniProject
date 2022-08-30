@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -37,7 +36,12 @@ public class AdminUserController {
 	
 	@RequestMapping(value = "/admin/user/update", method = RequestMethod.POST)
 	public String updateDB(UserDto dto,RedirectAttributes rttr) throws Exception{
-		service.update(dto);
+		try {
+			service.update(dto);
+		}catch (Exception e) {
+			rttr.addFlashAttribute("msg","null");
+			return "redirect:/admin/user/update?userID="+dto.getUserID();
+		}
 		logger.info(dto.toString());
 		rttr.addFlashAttribute("msg","success");
 		return "redirect:/admin/user/selectAll";
@@ -50,9 +54,14 @@ public class AdminUserController {
 	
 	@RequestMapping(value = "/admin/user/pwUpdate", method = RequestMethod.POST)
 	public String pwwUpdateDB(UserDto dto, RedirectAttributes rttr) throws Exception{
-		String encPassword = passwordEncoder.encode(dto.getUserPW());
-		dto.setUserPW(encPassword);
-		service.pwUpdate(dto);
+		if(dto.getUserPW().equals("")) {
+			rttr.addFlashAttribute("msg","null");
+			return "redirect:/admin/user/pwUpdate?userID="+dto.getUserID();
+		}else {
+			String encPassword = passwordEncoder.encode(dto.getUserPW());
+			dto.setUserPW(encPassword);
+			service.pwUpdate(dto);
+		}
 		logger.info(dto.toString());
 		rttr.addFlashAttribute("msg","success");
 		return "redirect:/admin/user/selectAll";

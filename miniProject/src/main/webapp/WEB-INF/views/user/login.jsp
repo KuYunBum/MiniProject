@@ -19,7 +19,7 @@
 		</div>
 	</label> 
 	<label>
-		<p class="label-txt">비밀번호</p> <input type="text" class="input" id="userPW" name="userPW">
+		<p class="label-txt">비밀번호</p> <input type="password" class="input" id="userPW" name="userPW">
 		<div class="line-box">
 			<div class="line"></div>
 		</div>

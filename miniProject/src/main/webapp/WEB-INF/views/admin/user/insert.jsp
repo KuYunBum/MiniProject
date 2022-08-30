@@ -15,8 +15,11 @@
 	    <input type="text" name="userName"><br>
 	    
 	    <label id="labelID" for="userGender"> 성별 </label>
-	    <input type="radio" name="userGender" value="남자"> 남자&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<input type="radio" name="userGender" value="여자"> 여자<br>
+		<select name='userGender'>
+			<option value='' selected>선택</option>
+			<option value='남자'>남자</option>
+			<option value='여자'>여자</option>
+		</select><br>
 	        
 	    <label id="labelID" for="userBirth"> 생년월일 </label>
 	    <input type="date" name="userBirth"><br>

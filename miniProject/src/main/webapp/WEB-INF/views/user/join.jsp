@@ -3,7 +3,7 @@
 <%@include file="../include/header.jsp"%>
 
 
-<form class="userForm" action="/mini/user/insert" method="post">
+<form class="userForm" action="/mini/user/join" method="post">
 	<span id="result"></span><br>
 	<label>
 		<p class="label-txt">아이디</p> <input type="text" class="input" oninput="joinCheckID();" id="userID" name="userID">
@@ -13,7 +13,7 @@
 		<input type="hidden" name="checked_id">
 	</label> 
 	<label>
-		<p class="label-txt">비밀번호</p> <input type="text" class="input" name="userPW">
+		<p class="label-txt">비밀번호</p> <input type="password" class="input" name="userPW">
 		<div class="line-box">
 			<div class="line"></div>
 		</div>
@@ -60,7 +60,7 @@
 
 <!-- <div class="container">
 	<h4>회원 가입</h4>
-	<form action="/mini/user/insert" method="post">
+	<form action="/mini/user/join" method="post">
 	    <label id="labelID" for="userID"> 아이디 </label>
 	    <input type="text" name="userID" id="userID"><br>
 	    

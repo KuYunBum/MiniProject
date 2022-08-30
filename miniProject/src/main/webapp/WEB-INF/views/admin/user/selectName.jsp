@@ -2,36 +2,6 @@
 
 <%@include file="../../include/header.jsp"%>
 
-	<script>
-	 var result = '${msg}';
-		if (result == 'success') {
-			alert("처리가 완료되었습니다.");
-		}
-	</script>
-	<style>
-#customers {
-  font-family: Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-#customers td, #customers th {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-#customers tr:nth-child(even){background-color: #f2f2f2;}
-
-#customers tr:hover {background-color: #ddd;}
-
-#customers th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #04AA6D;
-  color: white;
-}
-</style>
 </head>
 <body>
 	<div class="container">
@@ -41,16 +11,28 @@
 				<thead>
 					<tr>
 						<th>구분</th>
-						<th>userID</th>
-						<th>password</th>
-						<th>enabled</th>
+						<th>회원번호</th>
+						<th>아이디</th>
+						<th>비밀번호</th>
+						<th>이름</th>
+						<th>성별</th>
+						<th>이메일</th>
+						<th>전화번호</th>
+						<th>생년월일</th>
+						<th>권한</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<td><a href="/mini/admin/user/delete?userID=${dto.userID}">삭제</a></td>
-						<td>${dto.userID}</td>
-						<td>${dto.userPW}</td>
+						<td>${dto.userNum}</td>
+						<td>${dto.userID }</td>
+						<td>${dto.userPW }</td>
+						<td>${dto.userName}</td>
+						<td>${dto.userGender}</td>
+						<td>${dto.userEmail}</td>
+						<td>${dto.userPhone}</td>
+						<td><fmt:formatDate pattern='yyyy-MM-dd' value='${dto.userBirth }'/></td>
 						<td>${dto.enabled }</td>
 					</tr>
 				</tbody>

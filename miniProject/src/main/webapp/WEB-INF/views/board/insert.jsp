@@ -11,24 +11,25 @@
 						<th>작성자</th>
 					</tr>
 					<tr>
-						<td><input type="text" name="userID" value="<%=name %>" readonly="readonly"></td>
+						<td><input type="text" id="userID" name="userID" value="<%=name %>" readonly="readonly"></td>
 					</tr>
 					<tr>
 						<th>제목</th>
 					</tr>
 					<tr>
-						<td><input type="text" name="title"></td>
+						<td><input type="text" id="title" name="title"></td>
 					</tr>
 					<tr>
 						<th>내용</th>
 					</tr>
 					<tr>
-						<td><textarea style="width: 400px; height: 200px;" name="content"></textarea></td>
+						<td><textarea style="width: 400px; height: 200px;" id="content" name="content"></textarea></td>
 					</tr>
 			</table>
-			<button type="submit" class="btn btn-primary">저장</button>
+			<button type="button" onclick="boardInsert();" class="btn btn-primary">저장</button>
 			<button type="button" class="btn btn-primary" onclick="history.back();">취소</button>
-		</form>
+		</form><br>
+		<span id="result"></span>
 	</div>
 </div>
 
